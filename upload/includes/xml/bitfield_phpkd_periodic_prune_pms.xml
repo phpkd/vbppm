@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<bitfields product="phpkd_periodic_prune_pms">
+	<bitfielddefs>
+		<group name="ugp">
+			<group name="prunepmsafterxperms">
+				<bitfield name="phpkd_pmpruneperiod" intperm="true" group="phpkd_periodic_prune_pms_perms" phrase="phpkd_periodic_prune_pms_days">1</bitfield>
+			</group>
+		</group>
+	</bitfielddefs>
+</bitfields>
+
+<!-- Version: 1.0.0 | Revision: $Revision$ | Released: $Date$ -->
