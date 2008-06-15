@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<product productid="phpkd_periodic_prune_pms" active="1">
+	<title>Periodic Prune Pms</title>
+	<description>This product allows forum administration to specify a period after which all pms of users will be deleted (Setting Per Usergroup).</description>
+	<version>1.0.0</version>
+	<revision><![CDATA[$Revision$]]></revision>
+	<released><![CDATA[$Date$]]></released>
+	<url><![CDATA[http://www.phpkd.net/forum/misc.php?do=mods&action=producthelp&pid=phpkd_periodic_prune_pms]]></url>
+	<versioncheckurl><![CDATA[http://www.phpkd.net/forum/misc.php?do=mods&action=productcheck&pid=phpkd_periodic_prune_pms]]></versioncheckurl>
+	<dependencies>
+		<dependency dependencytype="vbulletin" minversion="3.7.0" maxversion="3.7.99" />
+	</dependencies>
+	<codes>
+		<code version="1.0.0">
+			<installcode><![CDATA[$db->hide_errors();
+$db->query_write("ALTER TABLE `" . TABLE_PREFIX . "usergroup` ADD `phpkd_pmpruneperiod` INT(10) DEFAULT '0' NOT NULL ;");
+$db->show_errors();]]></installcode>
+			<uninstallcode><![CDATA[$db->hide_errors();
+$db->query_write("ALTER TABLE `" . TABLE_PREFIX . "usergroup` DROP `phpkd_pmpruneperiod`");
+$db->show_errors();]]></uninstallcode>
+		</code>
+	</codes>
+	<templates>
+	</templates>
+	<plugins>
+	</plugins>
+	<phrases>
+		<phrasetype name="Control Panel Options" fieldname="cpoption">
+			<phrase name="phpkd_periodic_prune_pms_folders_all" date="1209917060" username="PHPKD" version="1.0.0"><![CDATA[All Folders]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_folders_inbox" date="1209917076" username="PHPKD" version="1.0.0"><![CDATA[Just Inbox]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_folders_not_in_nor_out" date="1209917122" username="PHPKD" version="1.0.0"><![CDATA[All folders other than inbox & outbox]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_folders_outbox" date="1209917087" username="PHPKD" version="1.0.0"><![CDATA[Just Outbox]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_status_both" date="1209917623" username="PHPKD" version="1.0.0"><![CDATA[Both]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_status_read" date="1209917605" username="PHPKD" version="1.0.0"><![CDATA[Read]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_status_unread" date="1209917615" username="PHPKD" version="1.0.0"><![CDATA[Un-Read]]></phrase>
+		</phrasetype>
+		<phrasetype name="Permissions" fieldname="cppermission">
+			<phrase name="phpkd_periodic_prune_pms_days" date="1209915307" username="PHPKD" version="1.0.0"><![CDATA[Prune PMs After <strong>X Days</strong>]]></phrase>
+			<phrase name="phpkd_periodic_prune_pms_perms" date="1209915292" username="PHPKD" version="1.0.0"><![CDATA[Periodic Prune PMs Permissions]]></phrase>
+		</phrasetype>
+		<phrasetype name="Scheduled Tasks" fieldname="cron">
+			<phrase name="task_prunepms_desc" date="1210006107" username="PHPKD" version="1.0.0"><![CDATA[This script Prunes PMs periodically depending on the period you specify for each usergroup. This script runs once daily.]]></phrase>
+			<phrase name="task_prunepms_log" date="1210006107" username="PHPKD" version="1.0.0"><![CDATA[PMs Pruned!]]></phrase>
+			<phrase name="task_prunepms_title" date="1210006107" username="PHPKD" version="1.0.0"><![CDATA[Prune PMs]]></phrase>
+		</phrasetype>
+		<phrasetype name="vBulletin Settings" fieldname="vbsettings">
+			<phrase name="setting_phpkd_periodic_prune_pms_active_desc" date="1209916836" username="PHPKD" version="1.0.0"><![CDATA[Turn "On" to prune PMs after X days (specified per usergroup), or Turn it "Off" to disable this system TOTALY.]]></phrase>
+			<phrase name="setting_phpkd_periodic_prune_pms_active_title" date="1209916836" username="PHPKD" version="1.0.0"><![CDATA[Prune PMs Periodically]]></phrase>
+			<phrase name="setting_phpkd_periodic_prune_pms_folders_desc" date="1209917548" username="PHPKD" version="1.0.0"><![CDATA[Choose which PM Folders you wish to empty it periodically.]]></phrase>
+			<phrase name="setting_phpkd_periodic_prune_pms_folders_title" date="1209917548" username="PHPKD" version="1.0.0"><![CDATA[Pruned Folders]]></phrase>
+			<phrase name="setting_phpkd_periodic_prune_pms_status_desc" date="1209917587" username="PHPKD" version="1.0.0"><![CDATA[Choose which messages you wish to prune periodically, you can prune just read PMs OR just unread PMs OR Both.]]></phrase>
+			<phrase name="setting_phpkd_periodic_prune_pms_status_title" date="1209917587" username="PHPKD" version="1.0.0"><![CDATA[Message Status]]></phrase>
+			<phrase name="settinggroup_phpkd_periodic_prune_pms" date="1209916497" username="PHPKD" version="1.0.0"><![CDATA[Periodic Prune PMs Settings]]></phrase>
+		</phrasetype>
+	</phrases>
+	<options>
+		<settinggroup name="phpkd_periodic_prune_pms" displayorder="1000">
+			<setting varname="phpkd_periodic_prune_pms_active" displayorder="10">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="phpkd_periodic_prune_pms_folders" displayorder="20">
+				<datatype>number</datatype>
+				<optioncode>select:piped
+0|phpkd_periodic_prune_pms_folders_all
+1|phpkd_periodic_prune_pms_folders_inbox
+2|phpkd_periodic_prune_pms_folders_outbox
+3|phpkd_periodic_prune_pms_folders_not_in_nor_out</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="phpkd_periodic_prune_pms_status" displayorder="30">
+				<datatype>number</datatype>
+				<optioncode>select:piped
+0|phpkd_periodic_prune_pms_status_read
+1|phpkd_periodic_prune_pms_status_unread
+2|phpkd_periodic_prune_pms_status_both</optioncode>
+				<defaultvalue>2</defaultvalue>
+			</setting>
+		</settinggroup>
+	</options>
+	<helptopics>
+	</helptopics>
+	<cronentries>
+		<cron varname="prunepms" active="1" loglevel="1">
+			<filename>./includes/cron/prunepms.php</filename>
+			<scheduling weekday="-1" day="-1" hour="0" minute="0" />
+		</cron>
+	</cronentries>
+	<faqentries>
+	</faqentries>
+</product>
